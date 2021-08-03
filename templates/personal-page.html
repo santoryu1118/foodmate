@@ -1,0 +1,191 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>FoodMate personal page</title>
+  <meta name="description" content="A simple HTML5 Template for new projects.">
+  <meta name="author" content="SitePoint">
+
+  <meta property="og:title" content="A Basic HTML5 Template">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.sitepoint.com/a-basic-html5-template/">
+  <meta property="og:description" content="A simple HTML5 Template for new projects.">
+  <meta property="og:image" content="image.png">
+
+  <!-- favicon -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <!-- bootstrap css   -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+
+</head>
+
+<style>
+
+</style>
+
+<script>
+
+  // 반응확인용
+  function hi() {
+    alert('hi');
+  }
+
+
+  // 페이지가 로드 될 때 gefood function과 enter key입력될때 음식 선택지 추가!의 입력버튼이 눌리는 함수
+  $(document).ready(function () {
+    $(document).bind('keypress', function (e) {
+      if (e.keyCode == 13) {
+        $('#food_pressed').trigger('click');
+      }
+    });
+    getFood();
+  });
+
+  // 음식 선택지 추가 input 값을 받고 입력 버튼을 눌럿을때 실행
+  // 선택지 db에 추가
+  function postFood() {
+    let food = $('#input-food').val()
+
+    $.ajax({
+      type: "POST",
+      url: "/memo/add",
+      data: { food_give: food },
+      success: function (response) {
+        alert(response["msg"]);
+        window.location.reload();
+      }
+    })
+  }
+
+  // 선택지db에서 음식들 가져오고 출력
+  function getFood() {
+
+    $.ajax({
+      type: "GET",
+      url: "/memo/give",
+      data: {},
+      success: function (response) {
+        let all_foods = response['all']
+        for (let i = 0; i < all_foods.length; i++) {
+          let food = all_foods[i]['food']
+
+          let temp_html = `<span class="tag is-white"><button onclick="deleteFood('${food}'); post2board('${food}');" class="button is-small">${food}</button></span>`
+          $('#food_list').append(temp_html)
+
+        }
+      }
+    })
+  }
+
+    // 오늘뭐먹지? 선택지에서 음식을 클릭 할 때 해당 음식을 선택지db에서 삭제
+  function deleteFood(food) {
+
+    $.ajax({
+      type: "POST",
+      url: "/memo/delete",
+      data: { food_name: food },
+      success: function (response) {
+        // alert(response["msg"]);
+        window.location.reload();
+      }
+    })
+  }
+
+  // 오늘뭐먹지? 선택지에서 음식을 클릭 할 때 통합음식db로 전송
+  function post2board(food) {
+
+    $.ajax({
+      type: "POST",
+      url: "/memo/upload",
+      data: { food_give: food },
+      success: function (response) {
+        alert(response["msg"]);
+        window.location.reload();
+      }
+    })
+  }
+  
+</script>
+
+
+
+<body>
+  <!-- your content here... -->
+  <section class="hero is-primary is-fullheight">
+    <div class="hero-body">
+      <p class="title">FoodMate</p>
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-7-tablet is-4-desktop is-4-widescreen">
+            <action action="" class="box">
+              <div class="columns">
+                <div class="column" onclick="hi()">
+                  <code>로그아웃</code>
+                </div>
+                <div class="column" onclick="hi()">
+                  <code>회원정보수정</code>
+                </div>
+              </div>
+            </action>
+            <action action="" class="box">
+              <label class="label">
+                <h2><b>오늘 뭐 먹지?</b></h2>
+              </label>
+              <div class="field">
+                <div class="tags" id="food_list">
+                  <span class="tag is-white" onclick="this.style.display='none'"><button>음식 선택</button></span>
+                </div>
+              </div>
+              <label class="label">
+                <h2><b>음식 선택지 추가!</b></h2>
+              </label>
+              <div class="field">
+                <div class="control">
+                  <input class="input" id="input-food" type="text" placeholder="Text input">
+                  <button onclick="postFood()" id="food_pressed">입력</button>
+                </div>
+              </div>
+            </action>
+            <action action="" class="box">
+              <aside class="menu">
+                <p class="menu-label">
+                  General
+                </p>
+                <ul class="menu-list">
+                  <li>
+                    <a>마라탕
+                      <button class="button is-small">
+                        <span>hi</span>
+                      </button>
+                    </a>
+                  </li>
+                  <li><a>햄버거</a></li>
+                  <li><a>피자</a></li>
+                  <li><a>스파게티</a></li>
+                </ul>
+              </aside>
+            </action>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+
+</html>
