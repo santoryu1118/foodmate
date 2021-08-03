@@ -1,0 +1,152 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>A Basic HTML5 Template</title>
+    <meta name="description" content="A simple HTML5 Template for new projects.">
+    <meta name="author" content="SitePoint">
+
+    <meta property="og:title" content="A Basic HTML5 Template">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.sitepoint.com/a-basic-html5-template/">
+    <meta property="og:description" content="A simple HTML5 Template for new projects.">
+    <meta property="og:image" content="image.png">
+
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <script src="js/scripts.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+
+    <script>
+        $(document).ready(function(){
+        });
+
+        function login(){
+            let id = $("#login-id").val();
+            let password = $("#password").val();
+            $.ajax({
+                type: "POST",
+                url: '/api/login',
+                data : {id_give: id, pw_give: password},
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        console.log(id);
+                        alert("로그인 성공!");
+                        window.location.reload();
+                    } else {
+                        console.log(id);
+                        alert("로그인 실패!")
+                    }
+                }
+            })
+        }
+
+        function create_acc_cmplt() {
+        alert('회원가입이 완료되었습니다.')
+        window.location.reload();
+    }
+
+    function create_acc() {
+        $('#create_acc_button1').hide();
+
+        let temp_html = `<action action="" class="box" id="acc_info">
+                            <form class="box">
+                                <h3><b>회원 가입</b></h3>
+                                <div class="field">
+                                    <label class="label">아이디</label>
+                                    <div class="control">
+                                        <input class="input" type="acc-id" placeholder="e.g. alex2003">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Password</label>
+                                    <div class="control">
+                                        <input class="input" type="password" placeholder="********">
+                                    </div>
+                                </div>
+                                <h3><b>개인 정보</b></h3>
+                                <div class="field">
+                                    <label class="label">이름</label>
+                                    <div class="control">
+                                        <input class="input" type="acc-name" placeholder="홍길동">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">사는 곳</label>
+                                    <div class="control">
+                                        <input class="input" type="acc-address" placeholder="시/구/동">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">이메일</label>
+                                    <div class="control">
+                                        <input class="input" type="acc-email" placeholder="e.g. alex2003@gmail.com">
+                                    </div>
+                                </div>
+                                <button class="button is-primary" onclick="create_acc_cmplt()">회원가입</button>
+                            </form>
+                        </action>`
+        $('#main-body').append(temp_html)
+        
+    }
+    </script>
+</head>
+
+<body>
+    <!-- your content here... -->
+    <section class="hero is-primary is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+                        <action action="" class="box">
+                            <div class="field">
+                                <img src="https://www.mycity24.com.au/mycityko/pad_img/92767_60ac7a786be4c.jpg"
+                                    alt="오늘뭐먹지" width="500" height="600">
+                            </div>
+                            <div class="field">
+                                <label for="" class="label">아이디</label>
+                                <div class="control has-icons-left">
+                                    <input id = 'login-id', type="login-id" placeholder="아이디를 입력하세요." class="input" required>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="" class="label">비밀번호</label>
+                                <div class="control has-icons-left">
+                                    <input id ='password', type="password" placeholder="*******" class="input" required>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <button class="button is-success", onclick = "login()">
+                                    로그인
+                                </button>
+                            </div>
+                            <div class="field">
+                                <button class="button is-success">
+                                    회원가입
+                                </button>
+                            </div>
+                        </action>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- <script src="js/scripts.js"></script> -->
+</body>
+
+</html>
