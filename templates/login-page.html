@@ -5,35 +5,52 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>A Basic HTML5 Template</title>
+  
+    <title>FoodMate login page</title>
     <meta name="description" content="A simple HTML5 Template for new projects.">
     <meta name="author" content="SitePoint">
-
+  
     <meta property="og:title" content="A Basic HTML5 Template">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.sitepoint.com/a-basic-html5-template/">
     <meta property="og:description" content="A simple HTML5 Template for new projects.">
     <meta property="og:image" content="image.png">
-
+  
+    <!-- favicon -->
     <link rel="icon" href="/favicon.ico">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <script src="js/scripts.js"></script>
+  
+    <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+    <!-- bootstrap css   -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <!-- ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
-        $(document).ready(function(){
+        // 특정 버튼이 enter 가 눌렸을 때 클릭 되는 함수
+        $(document).ready(function () {
+            $(document).bind('keypress', function (e) {
+                if (e.keyCode == 13) {
+                    $('#login_pressed').trigger('click');
+                }
+            });
         });
 
-        function login(){
+        function login() {
             let id = $("#login-id").val();
             let password = $("#password").val();
             $.ajax({
                 type: "POST",
                 url: '/api/login',
-                data : {id_give: id, pw_give: password},
+                data: { id_give: id, pw_give: password },
                 success: function (response) {
                     if (response["result"] == "success") {
                         console.log(id);
@@ -47,15 +64,19 @@
             })
         }
 
+
+        function login_pressed() {
+            alert('login');
+        }
         function create_acc_cmplt() {
-        alert('회원가입이 완료되었습니다.')
-        window.location.reload();
-    }
+            alert('회원가입이 완료되었습니다.')
+            window.location.reload();
+        }
 
-    function create_acc() {
-        $('#create_acc_button1').hide();
+        function create_acc() {
+            $('#create_acc_button1').hide();
 
-        let temp_html = `<action action="" class="box" id="acc_info">
+            let temp_html = `<action action="" class="box" id="acc_info">
                             <form class="box">
                                 <h3><b>회원 가입</b></h3>
                                 <div class="field">
@@ -92,9 +113,9 @@
                                 <button class="button is-primary" onclick="create_acc_cmplt()">회원가입</button>
                             </form>
                         </action>`
-        $('#main-body').append(temp_html)
-        
-    }
+            $('#main-body').append(temp_html)
+
+        }
     </script>
 </head>
 
@@ -113,7 +134,8 @@
                             <div class="field">
                                 <label for="" class="label">아이디</label>
                                 <div class="control has-icons-left">
-                                    <input id = 'login-id', type="login-id" placeholder="아이디를 입력하세요." class="input" required>
+                                    <input id='login-id' , type="login-id" placeholder="아이디를 입력하세요." class="input"
+                                        required>
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-envelope"></i>
                                     </span>
@@ -122,19 +144,19 @@
                             <div class="field">
                                 <label for="" class="label">비밀번호</label>
                                 <div class="control has-icons-left">
-                                    <input id ='password', type="password" placeholder="*******" class="input" required>
+                                    <input id='password' , type="password" placeholder="*******" class="input" required>
                                     <span class="icon is-small is-left">
                                         <i class="fa fa-lock"></i>
                                     </span>
                                 </div>
                             </div>
                             <div class="field">
-                                <button class="button is-success", onclick = "login()">
+                                <button class="button is-success" id="login_pressed" onclick="login_pressed()">
                                     로그인
                                 </button>
                             </div>
                             <div class="field">
-                                <button class="button is-success">
+                                <button class="button is-success" id="create_acc_button1" onclick="create_acc()">
                                     회원가입
                                 </button>
                             </div>
@@ -146,7 +168,7 @@
         </div>
     </section>
 
-    <!-- <script src="js/scripts.js"></script> -->
+    <script src="js/scripts.js"></script>
 </body>
 
 </html>
